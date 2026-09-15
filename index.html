@@ -4,1616 +4,832 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
 <title>DUEL LIFE</title>
 
 <style>
-
 *{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
+ box-sizing:border-box;
+ -webkit-tap-highlight-color:transparent;
 }
-
 html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:#07090d;
-    color:#fff;
-    font-family:Arial,sans-serif;
+ margin:0;width:100%;height:100%;
+ overflow:hidden;background:#07090d;color:#fff;
+ font-family:Arial,sans-serif;
 }
-
 button{
-    border:0;
-    color:#fff;
-    font-weight:bold;
-    touch-action:manipulation;
-    cursor:pointer;
+ border:0;color:#fff;font-weight:bold;
+ touch-action:manipulation;cursor:pointer;
 }
-
-button:active{
-    transform:scale(.95);
-}
-
-
-/* =========================
-   전체 앱
-========================= */
+button:active{transform:scale(.95)}
 
 .app{
-    width:100%;
-    height:100dvh;
-    overflow:hidden;
-
-    background:
-        radial-gradient(
-            circle,
-            #1b2433 0,
-            #090c12 55%,
-            #050609 100%
-        );
+ width:100%;height:100dvh;overflow:hidden;
+ background:radial-gradient(circle,#1b2433 0,#090c12 55%,#050609 100%);
 }
-
-
-/* =========================
-   메인 화면
-========================= */
 
 #mainScreen{
-    width:100%;
-    height:100%;
-    display:flex;
-    flex-direction:column;
+ width:100%;height:100%;
+ display:flex;flex-direction:column;
 }
-
-
-/* =========================
-   상단
-========================= */
 
 .topbar{
-    height:12%;
-    min-height:58px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 14px;
-
-    background:
-        linear-gradient(
-            #202733,
-            #10141b
-        );
-
-    border-bottom:1px solid #394454;
+ height:12%;min-height:58px;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 14px;
+ background:linear-gradient(#202733,#10141b);
+ border-bottom:1px solid #394454;
 }
-
 .logo{
-    font-size:20px;
-    font-weight:900;
-    letter-spacing:2px;
+ font-size:20px;font-weight:900;letter-spacing:2px;
 }
-
 .logo small{
-    display:block;
-    font-size:9px;
-    color:#728096;
-    letter-spacing:3px;
+ display:block;font-size:9px;color:#728096;letter-spacing:3px;
 }
-
-.turnStatus{
-    text-align:right;
-}
-
-.turnText{
-    font-size:9px;
-    color:#778397;
-    letter-spacing:1px;
-}
-
-.turnPlayer{
-    font-size:18px;
-    font-weight:900;
-}
-
-
-/* =========================
-   듀얼 영역
-========================= */
+.turnStatus{text-align:right}
+.turnText{font-size:9px;color:#778397;letter-spacing:1px}
+.turnPlayer{font-size:18px;font-weight:900}
 
 .duelArea{
-    flex:1;
-    min-height:0;
-
-    display:flex;
-
-    position:relative;
+ flex:1;min-height:0;display:flex;position:relative;
 }
-
-
-/* 플레이어 */
-
 .player{
-    flex:1;
-    min-width:0;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    padding:10px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    transition:.35s;
+ flex:1;min-width:0;
+ display:flex;align-items:center;justify-content:center;
+ padding:10px;position:relative;overflow:hidden;
+ transition:.35s;
 }
-
-
-/* 위치 */
-
-.player1{
-    border-right:1px solid #303744;
-}
-
-
-/* 활성 플레이어 */
-
+.player1{border-right:1px solid #303744}
 .player.active{
-    background:
-        radial-gradient(
-            circle,
-            rgba(45,115,255,.15),
-            transparent 70%
-        );
+ background:radial-gradient(circle,rgba(45,115,255,.15),transparent 70%);
 }
-
 .player2.active{
-    background:
-        radial-gradient(
-            circle,
-            rgba(255,65,65,.15),
-            transparent 70%
-        );
+ background:radial-gradient(circle,rgba(255,65,65,.15),transparent 70%);
 }
-
-
-/* =========================
-   플레이어 패널
-========================= */
 
 .panel{
-    width:94%;
-    height:92%;
-
-    max-width:430px;
-
-    border:1px solid #303947;
-
-    border-radius:18px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #202733,
-            #11151c
-        );
-
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    padding:12px;
-
-    transition:.3s;
-
-    box-shadow:
-        0 8px 25px #000;
+ width:94%;height:92%;max-width:430px;
+ border:1px solid #303947;border-radius:18px;
+ background:linear-gradient(145deg,#202733,#11151c);
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ padding:12px;transition:.3s;
+ box-shadow:0 8px 25px #000;
 }
-
-
-/* 활성 패널 */
-
 .player1.active .panel{
-    border-color:#3c82ff;
-
-    box-shadow:
-        0 0 12px #3c82ff55,
-        0 8px 25px #000;
+ border-color:#3c82ff;
+ box-shadow:0 0 12px #3c82ff55,0 8px 25px #000;
 }
-
 .player2.active .panel{
-    border-color:#ff4646;
-
-    box-shadow:
-        0 0 12px #ff464655,
-        0 8px 25px #000;
+ border-color:#ff4646;
+ box-shadow:0 0 12px #ff464655,0 8px 25px #000;
 }
-
-
-/* =========================
-   플레이어 이름
-========================= */
 
 .playerName{
-    font-size:
-        clamp(13px,2.5vw,22px);
-
-    font-weight:900;
-
-    margin-bottom:8px;
+ font-size:clamp(13px,2.5vw,22px);
+ font-weight:900;margin-bottom:8px;
 }
-
-.player1 .playerName{
-    color:#6da0ff;
-}
-
-.player2 .playerName{
-    color:#ff7777;
-}
-
-
-/* =========================
-   목숨
-========================= */
+.player1 .playerName{color:#6da0ff}
+.player2 .playerName{color:#ff7777}
 
 .lifeBox{
-    width:100%;
-    height:58%;
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    border:1px solid #303947;
-
-    border-radius:14px;
-
-    background:#0c1017;
-
-    cursor:pointer;
+ width:100%;height:58%;
+ display:flex;flex-direction:column;
+ align-items:center;justify-content:center;
+ border:1px solid #303947;border-radius:14px;
+ background:#0c1017;cursor:pointer;
 }
-
-.lifeIcon{
-    font-size:
-        clamp(30px,7vw,55px);
-}
-
+.lifeIcon{font-size:clamp(30px,7vw,55px)}
 .lifeNumber{
-    font-size:
-        clamp(38px,8vw,72px);
-
-    font-weight:900;
-
-    line-height:1;
+ font-size:clamp(38px,8vw,72px);
+ font-weight:900;line-height:1;
 }
-
 .lifeLabel{
-    font-size:10px;
-
-    color:#718096;
-
-    margin-top:8px;
-
-    letter-spacing:1px;
+ font-size:10px;color:#718096;
+ margin-top:8px;letter-spacing:1px;
 }
-
-
-/* =========================
-   코스트
-========================= */
 
 .costBox{
-    width:100%;
-
-    margin-top:8px;
-
-    padding:9px;
-
-    border-radius:12px;
-
-    background:#0c1017;
-
-    border:1px solid #303947;
-
-    cursor:pointer;
-
-    text-align:center;
+ width:100%;margin-top:8px;padding:9px;
+ border-radius:12px;background:#0c1017;
+ border:1px solid #303947;cursor:pointer;text-align:center;
 }
-
-.costTitle{
-    font-size:10px;
-
-    color:#718096;
-
-    letter-spacing:1px;
-}
-
+.costTitle{font-size:10px;color:#718096;letter-spacing:1px}
 .costNumber{
-    font-size:
-        clamp(20px,4vw,32px);
-
-    color:#ffd54a;
-
-    font-weight:900;
-
-    margin-top:3px;
+ font-size:clamp(20px,4vw,32px);
+ color:#ffd54a;font-weight:900;margin-top:3px;
 }
-
-
-/* =========================
-   중앙 버튼
-========================= */
 
 .center{
-    position:absolute;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    width:
-        clamp(85px,14vw,130px);
-
-    z-index:5;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
+ position:absolute;left:50%;top:50%;
+ transform:translate(-50%,-50%);
+ width:clamp(85px,14vw,130px);
+ z-index:5;display:flex;flex-direction:column;
+ align-items:center;
 }
-
 .turnButton{
-    width:100%;
-
-    aspect-ratio:1;
-
-    border-radius:50%;
-
-    background:
-        linear-gradient(
-            145deg,
-            #38475e,
-            #151b25
-        );
-
-    border:3px solid #53657d;
-
-    box-shadow:
-        0 0 0 5px #080b10,
-        0 0 20px #000;
-
-    font-size:
-        clamp(11px,2vw,17px);
-
-    font-weight:900;
+ width:100%;aspect-ratio:1;border-radius:50%;
+ background:linear-gradient(145deg,#38475e,#151b25);
+ border:3px solid #53657d;
+ box-shadow:0 0 0 5px #080b10,0 0 20px #000;
+ font-size:clamp(11px,2vw,17px);font-weight:900;
 }
-
 .turnButton.end{
-    background:
-        linear-gradient(
-            145deg,
-            #a43d3d,
-            #35171a
-        );
-
-    border-color:#ff6262;
+ background:linear-gradient(145deg,#a43d3d,#35171a);
+ border-color:#ff6262;
 }
-
 .turnNo{
-    font-size:10px;
-
-    color:#718096;
-
-    margin-top:8px;
-
-    white-space:nowrap;
+ font-size:10px;color:#718096;
+ margin-top:8px;white-space:nowrap;
 }
-
-
-/* =========================
-   하단 버튼
-========================= */
 
 .bottom{
-    height:13%;
-    min-height:65px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    gap:7px;
-
-    background:#10141b;
-
-    border-top:1px solid #303947;
+ height:13%;min-height:65px;
+ display:flex;align-items:center;justify-content:center;
+ gap:7px;background:#10141b;
+ border-top:1px solid #303947;
 }
-
 .toolButton{
-    padding:
-        10px 13px;
-
-    border-radius:10px;
-
-    background:#252e3c;
-
-    font-size:
-        clamp(10px,2.4vw,15px);
+ padding:10px 13px;border-radius:10px;
+ background:#252e3c;font-size:clamp(10px,2.4vw,15px);
 }
-
-
-/* 위치 교체 버튼 */
-
 .swapButton{
-    background:
-        linear-gradient(
-            145deg,
-            #6844a8,
-            #34205c
-        );
-
-    border:1px solid #9565df;
+ background:linear-gradient(145deg,#6844a8,#34205c);
+ border:1px solid #9565df;
 }
-
-
-/* 초기화 */
-
-.reset{
-    background:#343b48;
-}
-
+.reset{background:#343b48}
 
 /* =========================
-   랜덤 결과
+   랜덤 결과 화면
 ========================= */
 
 .randomResult{
-    position:fixed;
-
-    left:50%;
-    top:50%;
-
-    transform:
-        translate(-50%,-50%);
-
-    padding:
-        20px 35px;
-
-    background:#080a0eee;
-
-    border:1px solid #53657d;
-
-    border-radius:16px;
-
-    font-size:
-        clamp(28px,7vw,55px);
-
-    font-weight:900;
-
-    display:none;
-
-    z-index:100;
-
-    text-align:center;
+ position:fixed;
+ left:50%;top:50%;
+ transform:translate(-50%,-50%) scale(.7);
+ width:min(75vw,330px);
+ min-height:170px;
+ padding:20px;
+ background:linear-gradient(145deg,#151c27,#06080c);
+ border:2px solid #53657d;
+ border-radius:22px;
+ font-size:clamp(28px,7vw,55px);
+ font-weight:900;
+ display:none;
+ z-index:100;
+ text-align:center;
+ align-items:center;
+ justify-content:center;
+ flex-direction:column;
+ box-shadow:0 0 35px #000;
 }
 
+/* 결과창 등장 */
+.randomResult.show{
+ display:flex;
+ animation:resultAppear .3s ease-out forwards;
+}
+
+@keyframes resultAppear{
+ 0%{opacity:0;transform:translate(-50%,-50%) scale(.5)}
+ 70%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+ 100%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+
+/* =========================
+   주사위
+========================= */
+
+.diceVisual{
+ width:90px;height:90px;
+ border-radius:18px;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:linear-gradient(145deg,#f7f7f7,#aeb4bd);
+ color:#111;
+ font-size:52px;
+ box-shadow:
+   inset -8px -8px 15px #7778,
+   inset 8px 8px 15px #fff,
+   0 8px 25px #000;
+ margin-bottom:12px;
+}
+
+.diceRolling{
+ animation:
+   diceShake .12s infinite,
+   diceRotate .45s infinite linear;
+}
+
+@keyframes diceShake{
+ 0%{margin-left:-5px}
+ 50%{margin-left:5px}
+ 100%{margin-left:-5px}
+}
+
+@keyframes diceRotate{
+ 0%{transform:rotate(0deg) rotateX(0deg) rotateY(0deg)}
+ 25%{transform:rotate(90deg) rotateX(90deg) rotateY(45deg)}
+ 50%{transform:rotate(180deg) rotateX(180deg) rotateY(90deg)}
+ 75%{transform:rotate(270deg) rotateX(270deg) rotateY(135deg)}
+ 100%{transform:rotate(360deg) rotateX(360deg) rotateY(180deg)}
+}
+
+/* =========================
+   동전
+========================= */
+
+.coinVisual{
+ width:92px;height:92px;
+ border-radius:50%;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ background:radial-gradient(circle,#fff1a0 0,#d9a82d 55%,#825b0c 100%);
+ border:5px solid #f1ca55;
+ color:#3d2a00;
+ font-size:19px;
+ font-weight:900;
+ box-shadow:
+   inset 0 0 10px #fff8,
+   0 8px 25px #000;
+ margin-bottom:12px;
+ transform-style:preserve-3d;
+}
+
+.coinFlipping{
+ animation:coinFlip .18s infinite linear;
+}
+
+@keyframes coinFlip{
+ 0%{transform:rotateY(0deg) translateY(0)}
+ 25%{transform:rotateY(90deg) translateY(-8px)}
+ 50%{transform:rotateY(180deg) translateY(0)}
+ 75%{transform:rotateY(270deg) translateY(-8px)}
+ 100%{transform:rotateY(360deg) translateY(0)}
+}
+
+.randomLabel{
+ font-size:12px;
+ color:#8b98aa;
+ margin-top:4px;
+}
 
 /* =========================
    계산기
 ========================= */
 
 #calculatorScreen{
-    display:none;
-
-    width:100%;
-    height:100%;
-
-    flex-direction:column;
-
-    background:#090c12;
+ display:none;width:100%;height:100%;
+ flex-direction:column;background:#090c12;
 }
-
 .calcHeader{
-    height:14%;
-    min-height:60px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 12px;
-
-    background:
-        linear-gradient(
-            #202733,
-            #10141b
-        );
-
-    border-bottom:1px solid #394454;
+ height:14%;min-height:60px;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 12px;
+ background:linear-gradient(#202733,#10141b);
+ border-bottom:1px solid #394454;
 }
-
 .backButton{
-    background:#343e4d;
-
-    padding:
-        11px 15px;
-
-    border-radius:10px;
+ background:#343e4d;padding:11px 15px;border-radius:10px;
 }
-
 .calcTitle{
-    font-size:
-        clamp(16px,4vw,25px);
-
-    font-weight:900;
+ font-size:clamp(16px,4vw,25px);font-weight:900;
 }
-
-.calcTarget{
-    font-size:12px;
-
-    color:#8b98aa;
-}
-
+.calcTarget{font-size:12px;color:#8b98aa}
 
 .calcContent{
-    flex:1;
-
-    min-height:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    padding:12px;
+ flex:1;min-height:0;
+ display:flex;flex-direction:column;padding:12px;
 }
-
-
 .calcDisplay{
-    width:100%;
-
-    height:20%;
-
-    min-height:65px;
-
-    background:#05070b;
-
-    color:#fff;
-
-    border:1px solid #394454;
-
-    border-radius:14px;
-
-    text-align:center;
-
-    font-size:
-        clamp(30px,8vw,55px);
-
-    font-weight:900;
-
-    margin-bottom:10px;
+ width:100%;height:20%;min-height:65px;
+ background:#05070b;color:#fff;
+ border:1px solid #394454;border-radius:14px;
+ text-align:center;
+ font-size:clamp(30px,8vw,55px);
+ font-weight:900;margin-bottom:10px;
 }
-
-
 .calcButtons{
-    flex:1;
-
-    min-height:0;
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    gap:7px;
+ flex:1;min-height:0;
+ display:grid;grid-template-columns:repeat(3,1fr);
+ gap:7px;
 }
-
 .calcButtons button{
-    border-radius:12px;
-
-    background:#252e3c;
-
-    font-size:
-        clamp(18px,5vw,28px);
+ border-radius:12px;background:#252e3c;
+ font-size:clamp(18px,5vw,28px);
 }
+.calcButtons .clear{background:#a93232}
+.calcButtons .minus{background:#8f3030}
+.calcButtons .plus{background:#176d46}
+.calcButtons .zero{grid-column:span 2}
 
-.calcButtons .clear{
-    background:#a93232;
+/* 작은 화면 */
+@media(max-width:600px){
+ .bottom{gap:4px}
+ .toolButton{padding:9px 8px}
+ .center{width:82px}
+ .panel{height:90%}
 }
-
-.calcButtons .minus{
-    background:#8f3030;
-}
-
-.calcButtons .plus{
-    background:#176d46;
-}
-
-.calcButtons .zero{
-    grid-column:span 2;
-}
-
 </style>
 </head>
 
-
 <body>
-
 <div class="app">
-
-
-<!-- =================================
-     메인
-================================= -->
 
 <div id="mainScreen">
 
-
-    <!-- 상단 -->
-
-    <div class="topbar">
-
-        <div class="logo">
-            DUEL LIFE
-            <small>DUEL ASSIST SYSTEM</small>
-        </div>
-
-
-        <div class="turnStatus">
-
-            <div class="turnText">
-                CURRENT TURN
-            </div>
-
-            <div
-                id="turnPlayerText"
-                class="turnPlayer">
-                🔵 P1
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- 플레이어 -->
-
-    <div class="duelArea">
-
-
-        <!-- P1 -->
-
-        <div
-            id="player1"
-            class="player player1 active">
-
-            <div class="panel">
-
-                <div class="playerName">
-                    🔵 PLAYER 1
-                </div>
-
-
-                <div
-                    class="lifeBox"
-                    onclick="openLifeCalculator(1)">
-
-                    <div class="lifeIcon">
-                        ❤️
-                    </div>
-
-                    <div
-                        id="life1"
-                        class="lifeNumber">
-                        15
-                    </div>
-
-                    <div class="lifeLabel">
-                        LIFE POINTS · TOUCH
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="costBox"
-                    onclick="openCostCalculator(1)">
-
-                    <div class="costTitle">
-                        🔵 COST
-                    </div>
-
-                    <div
-                        id="cost1"
-                        class="costNumber">
-                        0
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- P2 -->
-
-        <div
-            id="player2"
-            class="player player2">
-
-            <div class="panel">
-
-                <div class="playerName">
-                    🔴 PLAYER 2
-                </div>
-
-
-                <div
-                    class="lifeBox"
-                    onclick="openLifeCalculator(2)">
-
-                    <div class="lifeIcon">
-                        ❤️
-                    </div>
-
-                    <div
-                        id="life2"
-                        class="lifeNumber">
-                        15
-                    </div>
-
-                    <div class="lifeLabel">
-                        LIFE POINTS · TOUCH
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="costBox"
-                    onclick="openCostCalculator(2)">
-
-                    <div class="costTitle">
-                        🔵 COST
-                    </div>
-
-                    <div
-                        id="cost2"
-                        class="costNumber">
-                        0
-                    </div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <!-- 중앙 -->
-
-        <div class="center">
-
-            <button
-                id="turnButton"
-                class="turnButton"
-                onclick="turnButtonClick()">
-
-                ▶<br>
-                턴 시작
-
-            </button>
-
-            <div
-                id="turnNo"
-                class="turnNo">
-                TURN 1
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- 하단 -->
-
-    <div class="bottom">
-
-        <button
-            class="toolButton"
-            onclick="rollDice()">
-            🎲 주사위
-        </button>
-
-
-        <button
-            class="toolButton"
-            onclick="flipCoin()">
-            🪙 동전
-        </button>
-
-
-        <!-- 위치 교체 -->
-
-        <button
-            class="toolButton swapButton"
-            onclick="swapPlayers()">
-            ⇄ 위치 교체
-        </button>
-
-
-        <button
-            class="toolButton reset"
-            onclick="resetGame()">
-            ↻ 초기화
-        </button>
-
-    </div>
+<div class="topbar">
+ <div class="logo">
+  DUEL LIFE
+  <small>DUEL ASSIST SYSTEM</small>
+ </div>
+
+ <div class="turnStatus">
+  <div class="turnText">CURRENT TURN</div>
+  <div id="turnPlayerText" class="turnPlayer">🔵 P1</div>
+ </div>
+</div>
+
+<div class="duelArea">
+
+<div id="player1" class="player player1 active">
+ <div class="panel">
+  <div class="playerName">🔵 PLAYER 1</div>
+
+  <div class="lifeBox" onclick="openLifeCalculator(1)">
+   <div class="lifeIcon">❤️</div>
+   <div id="life1" class="lifeNumber">15</div>
+   <div class="lifeLabel">LIFE POINTS · TOUCH</div>
+  </div>
+
+  <div class="costBox" onclick="openCostCalculator(1)">
+   <div class="costTitle">🔵 COST</div>
+   <div id="cost1" class="costNumber">0</div>
+  </div>
+ </div>
+</div>
+
+<div id="player2" class="player player2">
+ <div class="panel">
+  <div class="playerName">🔴 PLAYER 2</div>
+
+  <div class="lifeBox" onclick="openLifeCalculator(2)">
+   <div class="lifeIcon">❤️</div>
+   <div id="life2" class="lifeNumber">15</div>
+   <div class="lifeLabel">LIFE POINTS · TOUCH</div>
+  </div>
+
+  <div class="costBox" onclick="openCostCalculator(2)">
+   <div class="costTitle">🔵 COST</div>
+   <div id="cost2" class="costNumber">0</div>
+  </div>
+ </div>
+</div>
+
+<div class="center">
+ <button id="turnButton" class="turnButton" onclick="turnButtonClick()">
+  ▶<br>턴 시작
+ </button>
+ <div id="turnNo" class="turnNo">TURN 1</div>
+</div>
 
 </div>
 
+<div class="bottom">
+ <button class="toolButton" onclick="rollDice()">🎲 주사위</button>
+ <button class="toolButton" onclick="flipCoin()">🪙 동전</button>
+ <button class="toolButton swapButton" onclick="swapPlayers()">⇄ 위치 교체</button>
+ <button class="toolButton reset" onclick="resetGame()">↻ 초기화</button>
+</div>
 
+</div>
 
-<!-- =================================
-     계산기
-================================= -->
+<!-- 계산기 -->
 
 <div id="calculatorScreen">
 
-    <div class="calcHeader">
+<div class="calcHeader">
+ <button class="backButton" onclick="closeCalculator()">← 돌아가기</button>
 
-        <button
-            class="backButton"
-            onclick="closeCalculator()">
-            ← 돌아가기
-        </button>
+ <div id="calcTitle" class="calcTitle">❤️ 목숨 계산</div>
 
-
-        <div
-            id="calcTitle"
-            class="calcTitle">
-            ❤️ 목숨 계산
-        </div>
-
-
-        <div
-            id="calcTarget"
-            class="calcTarget">
-            P1
-        </div>
-
-    </div>
-
-
-
-    <div class="calcContent">
-
-        <input
-            id="calcDisplay"
-            class="calcDisplay"
-            value="0"
-            readonly>
-
-
-        <div class="calcButtons">
-
-            <button onclick="inputNumber('1')">
-                1
-            </button>
-
-            <button onclick="inputNumber('2')">
-                2
-            </button>
-
-            <button onclick="inputNumber('3')">
-                3
-            </button>
-
-
-            <button onclick="inputNumber('4')">
-                4
-            </button>
-
-            <button onclick="inputNumber('5')">
-                5
-            </button>
-
-            <button onclick="inputNumber('6')">
-                6
-            </button>
-
-
-            <button onclick="inputNumber('7')">
-                7
-            </button>
-
-            <button onclick="inputNumber('8')">
-                8
-            </button>
-
-            <button onclick="inputNumber('9')">
-                9
-            </button>
-
-
-            <button
-                class="clear"
-                onclick="clearCalculator()">
-                C
-            </button>
-
-            <button
-                class="zero"
-                onclick="inputNumber('0')">
-                0
-            </button>
-
-            <button onclick="backspace()">
-                ←
-            </button>
-
-
-            <button
-                class="minus"
-                onclick="calculate(-1)">
-                ➖ 빼기
-            </button>
-
-            <button
-                class="plus"
-                onclick="calculate(1)">
-                ➕ 더하기
-            </button>
-
-        </div>
-
-    </div>
-
+ <div id="calcTarget" class="calcTarget">P1</div>
 </div>
 
+<div class="calcContent">
 
+<input id="calcDisplay" class="calcDisplay" value="0" readonly>
 
-<div
-    id="randomResult"
-    class="randomResult">
-    🎲 1
+<div class="calcButtons">
+
+<button onclick="inputNumber('1')">1</button>
+<button onclick="inputNumber('2')">2</button>
+<button onclick="inputNumber('3')">3</button>
+
+<button onclick="inputNumber('4')">4</button>
+<button onclick="inputNumber('5')">5</button>
+<button onclick="inputNumber('6')">6</button>
+
+<button onclick="inputNumber('7')">7</button>
+<button onclick="inputNumber('8')">8</button>
+<button onclick="inputNumber('9')">9</button>
+
+<button class="clear" onclick="clearCalculator()">C</button>
+<button class="zero" onclick="inputNumber('0')">0</button>
+<button onclick="backspace()">←</button>
+
+<button class="minus" onclick="calculate(-1)">➖ 빼기</button>
+<button class="plus" onclick="calculate(1)">➕ 더하기</button>
+
+</div>
+</div>
 </div>
 
+<!-- 랜덤 결과 -->
+
+<div id="randomResult" class="randomResult"></div>
 
 </div>
-
-
 
 <script>
 
-
-/* =================================
+/* =========================
    게임 데이터
-================================= */
+========================= */
 
-let life={
-    1:15,
-    2:15
-};
-
-let cost={
-    1:0,
-    2:0
-};
-
-
-/*
-   실제 플레이어 번호
-
-   currentPlayer는
-   화면 위치와 관계없이
-   실제 P1/P2를 의미함
-*/
+let life={1:15,2:15};
+let cost={1:0,2:0};
 
 let currentPlayer=1;
-
 let turnStarted=false;
-
 let turnNumber=1;
-
-
-/*
-   위치 상태
-
-   true:
-   P1 왼쪽 / P2 오른쪽
-
-   false:
-   P2 왼쪽 / P1 오른쪽
-*/
-
 let normalPosition=true;
 
-
-/* 계산기 */
-
 let calculatorType="life";
-
 let calculatorPlayer=1;
-
 let calcValue="";
 
-
-/* =================================
+/* =========================
    화면 갱신
-================================= */
+========================= */
 
 function updateScreen(){
 
-    document.getElementById("life1").textContent=
-        life[1];
+ document.getElementById("life1").textContent=life[1];
+ document.getElementById("life2").textContent=life[2];
 
-    document.getElementById("life2").textContent=
-        life[2];
+ document.getElementById("cost1").textContent=cost[1];
+ document.getElementById("cost2").textContent=cost[2];
 
+ document.getElementById("turnPlayerText").textContent=
+  currentPlayer===1?"🔵 P1":"🔴 P2";
 
-    document.getElementById("cost1").textContent=
-        cost[1];
+ document.getElementById("turnNo").textContent=
+  "TURN "+turnNumber;
 
-    document.getElementById("cost2").textContent=
-        cost[2];
+ document.getElementById("player1")
+  .classList.toggle("active",currentPlayer===1);
 
+ document.getElementById("player2")
+  .classList.toggle("active",currentPlayer===2);
 
-    document.getElementById("turnPlayerText").textContent=
-        currentPlayer===1
-        ? "🔵 P1"
-        : "🔴 P2";
+ const button=document.getElementById("turnButton");
 
-
-    document.getElementById("turnNo").textContent=
-        "TURN "+turnNumber;
-
-
-    /*
-       활성 플레이어
-    */
-
-    document
-        .getElementById("player1")
-        .classList.toggle(
-            "active",
-            currentPlayer===1
-        );
-
-    document
-        .getElementById("player2")
-        .classList.toggle(
-            "active",
-            currentPlayer===2
-        );
-
-
-    /*
-       턴 버튼
-    */
-
-    const button=
-        document.getElementById("turnButton");
-
-
-    if(turnStarted){
-
-        button.innerHTML=
-            "⏹<br>턴 종료";
-
-        button.classList.add("end");
-
-    }else{
-
-        button.innerHTML=
-            "▶<br>턴 시작";
-
-        button.classList.remove("end");
-
-    }
-
+ if(turnStarted){
+  button.innerHTML="⏹<br>턴 종료";
+  button.classList.add("end");
+ }else{
+  button.innerHTML="▶<br>턴 시작";
+  button.classList.remove("end");
+ }
 }
 
-
-/* =================================
-   플레이어 위치 교체
-================================= */
+/* =========================
+   위치 교체
+========================= */
 
 function swapPlayers(){
 
-    const area=
-        document.querySelector(".duelArea");
+ const area=document.querySelector(".duelArea");
+ const p1=document.getElementById("player1");
+ const p2=document.getElementById("player2");
+ const center=document.querySelector(".center");
 
-    const p1=
-        document.getElementById("player1");
+ if(normalPosition){
 
-    const p2=
-        document.getElementById("player2");
+  area.insertBefore(p2,center);
+  area.insertBefore(p1,center);
 
+  normalPosition=false;
 
-    /*
-       DOM 위치 자체를 교환
-    */
+ }else{
 
-    if(normalPosition){
+  area.insertBefore(p1,center);
+  area.insertBefore(p2,center);
 
-        area.insertBefore(
-            p2,
-            document.querySelector(".center")
-        );
+  normalPosition=true;
+ }
 
-        area.insertBefore(
-            p1,
-            document.querySelector(".center")
-        );
-
-        normalPosition=false;
-
-    }else{
-
-        area.insertBefore(
-            p1,
-            document.querySelector(".center")
-        );
-
-        area.insertBefore(
-            p2,
-            document.querySelector(".center")
-        );
-
-        normalPosition=true;
-
-    }
-
-
-    updateScreen();
-
+ updateScreen();
 }
 
-
-/* =================================
+/* =========================
    턴
-================================= */
+========================= */
 
 function turnButtonClick(){
 
-    /*
-       턴 시작
-    */
+ if(!turnStarted){
 
-    if(!turnStarted){
+  turnStarted=true;
 
-        turnStarted=true;
+  cost[currentPlayer]+=3;
 
+  updateScreen();
 
-        /*
-           현재 턴 플레이어만
-           코스트 +3
-        */
+  showMessage(
+   "▶️",
+   "P"+currentPlayer+" 턴 시작",
+   "+3 COST"
+  );
 
-        cost[currentPlayer]+=3;
+  return;
+ }
 
+ turnStarted=false;
 
-        updateScreen();
+ currentPlayer=currentPlayer===1?2:1;
+ turnNumber++;
 
+ updateScreen();
 
-        showRandomResult(
-            "▶️ P"+currentPlayer+
-            " 턴 시작<br>+3 COST"
-        );
+ setTimeout(function(){
 
+  turnStarted=true;
+  cost[currentPlayer]+=3;
 
-        return;
-    }
+  updateScreen();
 
+  showMessage(
+   "▶️",
+   "P"+currentPlayer+" 턴 시작",
+   "+3 COST"
+  );
 
-    /*
-       턴 종료
-    */
-
-    turnStarted=false;
-
-
-    /*
-       상대 플레이어로 변경
-    */
-
-    currentPlayer=
-        currentPlayer===1
-        ?2
-        :1;
-
-
-    turnNumber++;
-
-
-    updateScreen();
-
-
-    /*
-       상대 턴 자동 시작
-    */
-
-    setTimeout(function(){
-
-        turnStarted=true;
-
-
-        /*
-           새 턴 플레이어만
-           +3
-        */
-
-        cost[currentPlayer]+=3;
-
-
-        updateScreen();
-
-
-        showRandomResult(
-            "▶️ P"+currentPlayer+
-            " 턴 시작<br>+3 COST"
-        );
-
-    },250);
-
+ },250);
 }
 
-
-/* =================================
+/* =========================
    목숨 계산기
-================================= */
+========================= */
 
 function openLifeCalculator(player){
 
-    calculatorType="life";
+ calculatorType="life";
+ calculatorPlayer=player;
+ calcValue="";
 
-    calculatorPlayer=player;
+ document.getElementById("calcTitle").textContent="❤️ 목숨 계산";
+ document.getElementById("calcTarget").textContent="P"+player;
 
-    calcValue="";
+ document.getElementById("mainScreen").style.display="none";
+ document.getElementById("calculatorScreen").style.display="flex";
 
-
-    document
-        .getElementById("calcTitle")
-        .textContent=
-        "❤️ 목숨 계산";
-
-
-    document
-        .getElementById("calcTarget")
-        .textContent=
-        "P"+player;
-
-
-    document
-        .getElementById("mainScreen")
-        .style.display="none";
-
-
-    document
-        .getElementById("calculatorScreen")
-        .style.display="flex";
-
-
-    updateCalcDisplay();
-
+ updateCalcDisplay();
 }
 
-
-/* =================================
+/* =========================
    코스트 계산기
-================================= */
+========================= */
 
 function openCostCalculator(player){
 
-    calculatorType="cost";
+ calculatorType="cost";
+ calculatorPlayer=player;
+ calcValue="";
 
-    calculatorPlayer=player;
+ document.getElementById("calcTitle").textContent="🔵 코스트 계산";
+ document.getElementById("calcTarget").textContent="P"+player;
 
-    calcValue="";
+ document.getElementById("mainScreen").style.display="none";
+ document.getElementById("calculatorScreen").style.display="flex";
 
-
-    document
-        .getElementById("calcTitle")
-        .textContent=
-        "🔵 코스트 계산";
-
-
-    document
-        .getElementById("calcTarget")
-        .textContent=
-        "P"+player;
-
-
-    document
-        .getElementById("mainScreen")
-        .style.display="none";
-
-
-    document
-        .getElementById("calculatorScreen")
-        .style.display="flex";
-
-
-    updateCalcDisplay();
-
+ updateCalcDisplay();
 }
 
-
-/* =================================
+/* =========================
    계산기
-================================= */
+========================= */
 
 function inputNumber(number){
 
-    if(calcValue==="0"){
-        calcValue="";
-    }
+ if(calcValue==="0") calcValue="";
 
-    calcValue+=number;
+ calcValue+=number;
 
-    updateCalcDisplay();
-
+ updateCalcDisplay();
 }
-
 
 function updateCalcDisplay(){
 
-    document
-        .getElementById("calcDisplay")
-        .value=
-        calcValue||"0";
-
+ document.getElementById("calcDisplay").value=
+  calcValue||"0";
 }
-
 
 function clearCalculator(){
 
-    calcValue="";
-
-    updateCalcDisplay();
-
+ calcValue="";
+ updateCalcDisplay();
 }
-
 
 function backspace(){
 
-    calcValue=
-        calcValue.slice(0,-1);
-
-    updateCalcDisplay();
-
+ calcValue=calcValue.slice(0,-1);
+ updateCalcDisplay();
 }
 
-
-/* =================================
+/* =========================
    계산 실행
-================================= */
+========================= */
 
 function calculate(sign){
 
-    const value=
-        parseInt(calcValue);
+ const value=parseInt(calcValue);
 
+ if(isNaN(value)||value===0)return;
 
-    if(
-        isNaN(value) ||
-        value===0
-    ){
-        return;
-    }
+ if(calculatorType==="life"){
 
+  life[calculatorPlayer]+=value*sign;
 
-    if(
-        calculatorType==="life"
-    ){
+  if(life[calculatorPlayer]<0)
+   life[calculatorPlayer]=0;
 
-        life[calculatorPlayer]+=
-            value*sign;
+ }else{
 
+  cost[calculatorPlayer]+=value*sign;
 
-        if(
-            life[calculatorPlayer]<0
-        ){
-            life[calculatorPlayer]=0;
-        }
+  if(cost[calculatorPlayer]<0)
+   cost[calculatorPlayer]=0;
+ }
 
-    }else{
-
-        cost[calculatorPlayer]+=
-            value*sign;
-
-
-        if(
-            cost[calculatorPlayer]<0
-        ){
-            cost[calculatorPlayer]=0;
-        }
-
-    }
-
-
-    updateScreen();
-
-    closeCalculator();
-
+ updateScreen();
+ closeCalculator();
 }
 
-
-/* =================================
+/* =========================
    계산기 닫기
-================================= */
+========================= */
 
 function closeCalculator(){
 
-    document
-        .getElementById("calculatorScreen")
-        .style.display="none";
-
-
-    document
-        .getElementById("mainScreen")
-        .style.display="flex";
-
+ document.getElementById("calculatorScreen").style.display="none";
+ document.getElementById("mainScreen").style.display="flex";
 }
 
-
-/* =================================
-   주사위
-================================= */
+/* ==================================================
+   🎲 주사위 애니메이션
+================================================== */
 
 function rollDice(){
 
-    const result=
-        Math.floor(
-            Math.random()*6
-        )+1;
+ const result=
+  Math.floor(Math.random()*6)+1;
 
+ const box=document.getElementById("randomResult");
 
-    showRandomResult(
-        "🎲 "+result
-    );
+ clearTimeout(window.randomTimer);
 
+ box.className="randomResult show";
+
+ box.innerHTML=`
+   <div class="diceVisual diceRolling">?</div>
+   <div class="randomLabel">ROLLING...</div>
+ `;
+
+ /*
+    약 1.2초 동안 주사위가 굴러감
+ */
+ setTimeout(function(){
+
+  box.innerHTML=`
+   <div class="diceVisual">${result}</div>
+   <div class="randomLabel">🎲 RESULT</div>
+  `;
+
+ },1200);
+
+ window.randomTimer=setTimeout(function(){
+  hideRandomResult();
+ },2300);
 }
 
-
-/* =================================
-   동전
-================================= */
+/* ==================================================
+   🪙 동전 애니메이션
+================================================== */
 
 function flipCoin(){
 
-    const result=
-        Math.random()<0.5
-        ?"앞면"
-        :"뒷면";
+ const result=
+  Math.random()<0.5?"앞면":"뒷면";
 
+ const box=document.getElementById("randomResult");
 
-    showRandomResult(
-        "🪙 "+result
-    );
+ clearTimeout(window.randomTimer);
 
+ box.className="randomResult show";
+
+ box.innerHTML=`
+   <div class="coinVisual coinFlipping">🪙</div>
+   <div class="randomLabel">FLIPPING...</div>
+ `;
+
+ /*
+    동전이 약 1.5초 동안 회전
+ */
+ setTimeout(function(){
+
+  box.innerHTML=`
+   <div class="coinVisual">${result}</div>
+   <div class="randomLabel">🪙 RESULT</div>
+  `;
+
+ },1500);
+
+ window.randomTimer=setTimeout(function(){
+  hideRandomResult();
+ },2700);
 }
 
+/* =========================
+   랜덤 결과 닫기
+========================= */
 
-/* =================================
-   랜덤 결과
-================================= */
+function hideRandomResult(){
 
-function showRandomResult(text){
+ const box=document.getElementById("randomResult");
 
-    const result=
-        document.getElementById(
-            "randomResult"
-        );
-
-
-    result.innerHTML=text;
-
-    result.style.display="block";
-
-
-    setTimeout(function(){
-
-        result.style.display="none";
-
-    },1100);
-
+ box.classList.remove("show");
+ box.style.display="none";
 }
 
+/* =========================
+   일반 메시지
+========================= */
 
-/* =================================
+function showMessage(icon,title,sub){
+
+ const box=document.getElementById("randomResult");
+
+ clearTimeout(window.randomTimer);
+
+ box.className="randomResult show";
+
+ box.innerHTML=`
+   <div style="font-size:42px;margin-bottom:8px">${icon}</div>
+   <div style="font-size:22px">${title}</div>
+   <div class="randomLabel">${sub}</div>
+ `;
+
+ window.randomTimer=setTimeout(function(){
+  hideRandomResult();
+ },1100);
+}
+
+/* =========================
    초기화
-================================= */
+========================= */
 
 function resetGame(){
 
-    if(
-        !confirm(
-            "게임을 처음 상태로 초기화할까요?"
-        )
-    ){
-        return;
-    }
+ if(!confirm("게임을 처음 상태로 초기화할까요?"))
+  return;
 
+ life={1:15,2:15};
+ cost={1:0,2:0};
 
-    life={
-        1:15,
-        2:15
-    };
+ currentPlayer=1;
+ turnStarted=false;
+ turnNumber=1;
+ normalPosition=true;
 
+ const area=document.querySelector(".duelArea");
+ const p1=document.getElementById("player1");
+ const p2=document.getElementById("player2");
+ const center=document.querySelector(".center");
 
-    cost={
-        1:0,
-        2:0
-    };
+ area.insertBefore(p1,center);
+ area.insertBefore(p2,center);
 
-
-    currentPlayer=1;
-
-    turnStarted=false;
-
-    turnNumber=1;
-
-    normalPosition=true;
-
-
-    const area=
-        document.querySelector(
-            ".duelArea"
-        );
-
-    const p1=
-        document.getElementById("player1");
-
-    const p2=
-        document.getElementById("player2");
-
-    const center=
-        document.querySelector(".center");
-
-
-    /*
-       P1 왼쪽
-       P2 오른쪽
-    */
-
-    area.insertBefore(
-        p1,
-        center
-    );
-
-    area.insertBefore(
-        p2,
-        center
-    );
-
-
-    closeCalculator();
-
-    updateScreen();
-
+ hideRandomResult();
+ closeCalculator();
+ updateScreen();
 }
 
-
-/* 시작 */
+/* =========================
+   시작
+========================= */
 
 updateScreen();
 
