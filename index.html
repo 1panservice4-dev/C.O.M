@@ -3,646 +3,1173 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>1대1 목숨값 계산기</title>
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>1대1 목숨 & 코스트</title>
 
 <style>
+
 * {
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #10131a;
-  color: white;
-  min-height: 100vh;
-}
-
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 8px;
-}
-
-.subtitle {
-  text-align: center;
-  color: #aaa;
-  margin-bottom: 25px;
-}
-
-.players {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-}
-
-.player {
-  background: #1b202b;
-  border-radius: 18px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 5px 20px rgba(0,0,0,.3);
-}
-
-.player h2 {
-  margin-top: 0;
-}
-
-.life {
-  font-size: 55px;
-  margin: 10px 0;
-}
-
-.life-number {
-  font-size: 50px;
-  font-weight: bold;
-}
-
-.cost {
-  margin-top: 10px;
-  font-size: 22px;
-  color: #ffd54a;
-}
-
-.cost span {
-  font-weight: bold;
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+    background: #10131a;
+    color: white;
 }
 
 button {
-  border: 0;
-  border-radius: 12px;
-  padding: 13px 18px;
-  margin: 5px;
-  font-size: 17px;
-  font-weight: bold;
-  cursor: pointer;
-  color: white;
-  background: #303746;
+    border: none;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    touch-action: manipulation;
 }
 
 button:active {
-  transform: scale(.95);
+    transform: scale(0.95);
 }
 
-.plus {
-  background: #168a4a;
+
+/* =========================
+   전체 앱
+========================= */
+
+.app {
+    width: 100%;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
 }
 
-.minus {
-  background: #c0392b;
+
+/* =========================
+   메인 화면
+========================= */
+
+#mainScreen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.turn {
-  display: block;
-  width: 100%;
-  max-width: 500px;
-  margin: 25px auto;
-  background: #6c45d9;
-  font-size: 20px;
-  padding: 17px;
+
+/* 상단 */
+
+.header {
+    height: 14%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 18px;
+    background: #181d27;
 }
 
-.reset {
-  background: #555;
+.title {
+    font-size: clamp(18px, 4vw, 28px);
+    font-weight: bold;
+}
+
+.turnInfo {
+    text-align: center;
+}
+
+.turnLabel {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.turnPlayer {
+    font-size: clamp(20px, 5vw, 32px);
+    font-weight: bold;
+}
+
+
+/* =========================
+   플레이어 영역
+========================= */
+
+.players {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 0;
+}
+
+.player {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;
+
+    border-right: 1px solid #303642;
+
+    transition: background .2s;
+}
+
+.player:last-child {
+    border-right: none;
+}
+
+.player.active {
+    background: #20283a;
+}
+
+.playerName {
+    font-size: clamp(18px, 4vw, 26px);
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+
+/* =========================
+   목숨
+========================= */
+
+.lifeBox {
+    width: 90%;
+    height: 42%;
+    max-height: 220px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 20px;
+    background: #181d27;
+
+    border: 2px solid transparent;
+
+    cursor: pointer;
+}
+
+.player.active .lifeBox {
+    border-color: #6c45d9;
+}
+
+.lifeIcon {
+    font-size: clamp(35px, 9vw, 65px);
+}
+
+.lifeNumber {
+    font-size: clamp(40px, 11vw, 75px);
+    font-weight: bold;
+}
+
+.touchText {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+
+/* =========================
+   코스트
+========================= */
+
+.costBox {
+    width: 90%;
+    margin-top: 10px;
+    padding: 10px;
+
+    background: #181d27;
+    border-radius: 14px;
+
+    cursor: pointer;
+}
+
+.costTitle {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.costNumber {
+    font-size: clamp(24px, 6vw, 38px);
+    color: #ffd54a;
+    font-weight: bold;
+}
+
+
+/* =========================
+   하단 버튼
+========================= */
+
+.bottom {
+    height: 22%;
+    min-height: 125px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: #181d27;
+}
+
+.turnButton {
+    width: 90%;
+    max-width: 600px;
+
+    padding: 16px;
+    border-radius: 14px;
+
+    background: #6c45d9;
+
+    font-size: clamp(18px, 4vw, 24px);
+}
+
+.turnButton.end {
+    background: #c0392b;
 }
 
 .tools {
-  margin-top: 25px;
-  background: #1b202b;
-  border-radius: 18px;
-  padding: 20px;
-  text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+
+    margin-top: 8px;
 }
 
-.tools h2 {
-  margin-top: 0;
+.toolButton {
+    padding: 9px 14px;
+    border-radius: 10px;
+    background: #303746;
 }
 
-.result {
-  font-size: 42px;
-  font-weight: bold;
-  margin: 15px;
-  min-height: 55px;
+
+/* =========================
+   계산기 화면
+========================= */
+
+#calculatorScreen {
+    display: none;
+
+    width: 100%;
+    height: 100%;
+
+    flex-direction: column;
 }
 
-.calculator {
-  margin-top: 25px;
-  background: #1b202b;
-  padding: 20px;
-  border-radius: 18px;
+.calcHeader {
+    height: 15%;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 10px 15px;
+
+    background: #181d27;
 }
 
-.calculator h2 {
-  text-align: center;
+.backButton {
+    background: #444b5a;
+    padding: 12px 18px;
+    border-radius: 10px;
 }
 
-.calc-display {
-  width: 100%;
-  font-size: 30px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 0;
-  text-align: center;
-  margin-bottom: 12px;
+.calcTitle {
+    font-size: clamp(18px, 5vw, 28px);
+    font-weight: bold;
 }
 
-.calc-buttons {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+.calcTarget {
+    font-size: 14px;
+    color: #aaa;
 }
 
-.calc-buttons button {
-  margin: 0;
-  padding: 18px;
-  font-size: 22px;
+
+/* 계산기 내용 */
+
+.calcContent {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+    min-height: 0;
 }
 
-.calc-clear {
-  background: #c0392b;
+.calcDisplay {
+    width: 100%;
+
+    height: 18%;
+    min-height: 60px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #080a0e;
+    color: white;
+
+    text-align: center;
+
+    font-size: clamp(30px, 8vw, 50px);
+    font-weight: bold;
+
+    margin-bottom: 10px;
 }
 
-.calc-ok {
-  background: #168a4a;
-  grid-column: span 3;
+
+/* 계산 버튼 */
+
+.calcButtons {
+    flex: 1;
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 7px;
+
+    min-height: 0;
 }
 
-.target-buttons {
-  text-align: center;
-  margin-bottom: 12px;
+.calcButtons button {
+    border-radius: 12px;
+
+    background: #303746;
+
+    font-size: clamp(18px, 5vw, 27px);
 }
 
-.target-buttons button {
-  background: #343b4c;
+.calcButtons .clear {
+    background: #c0392b;
 }
 
-.target-buttons .selected {
-  background: #6c45d9;
+.calcButtons .plus {
+    background: #168a4a;
 }
 
-.history {
-  margin-top: 20px;
-  background: #151922;
-  border-radius: 12px;
-  padding: 15px;
-  max-height: 180px;
-  overflow-y: auto;
+.calcButtons .minus {
+    background: #a93226;
 }
 
-.history div {
-  padding: 5px;
-  border-bottom: 1px solid #292e38;
-  color: #ccc;
+.calcButtons .zero {
+    grid-column: span 2;
 }
 
-@media (max-width: 650px) {
-  .players {
-    grid-template-columns: 1fr;
-  }
 
-  .life-number {
+/* =========================
+   랜덤 화면
+========================= */
+
+.randomResult {
+    position: fixed;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    padding: 25px 40px;
+
+    background: rgba(0,0,0,.92);
+
+    border-radius: 20px;
+
     font-size: 45px;
-  }
+    font-weight: bold;
 
-  .life {
-    font-size: 48px;
-  }
+    display: none;
+
+    z-index: 100;
 }
+
 </style>
 </head>
 
+
 <body>
 
-<div class="container">
-
-  <h1>❤️ 1대1 목숨값 계산기</h1>
-  <div class="subtitle">
-    기본 목숨 15 / 턴마다 코스트 +3
-  </div>
-
-  <div class="players">
-
-    <!-- 플레이어 1 -->
-    <div class="player">
-      <h2>🔵 플레이어 1</h2>
-
-      <div class="life">❤️</div>
-      <div class="life-number" id="life1">15</div>
-
-      <div>
-        <button class="minus" onclick="changeLife(1, -1)">−1</button>
-        <button class="plus" onclick="changeLife(1, 1)">+1</button>
-      </div>
-
-      <div class="cost">
-        코스트: <span id="cost1">0</span>
-      </div>
-    </div>
-
-    <!-- 플레이어 2 -->
-    <div class="player">
-      <h2>🔴 플레이어 2</h2>
-
-      <div class="life">❤️</div>
-      <div class="life-number" id="life2">15</div>
-
-      <div>
-        <button class="minus" onclick="changeLife(2, -1)">−1</button>
-        <button class="plus" onclick="changeLife(2, 1)">+1</button>
-      </div>
-
-      <div class="cost">
-        코스트: <span id="cost2">0</span>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- 턴 -->
-  <button class="turn" onclick="nextTurn()">
-    🔄 턴 넘기기 (+3 코스트)
-  </button>
-
-  <div style="text-align:center;">
-    현재 턴:
-    <strong id="turnNumber">1</strong>
-    턴
-  </div>
+<div class="app">
 
 
-  <!-- 계산기 -->
-  <div class="calculator">
+<!-- =================================
+     메인 화면
+================================= -->
 
-    <h2>🧮 목숨값 계산기</h2>
+<div id="mainScreen">
 
-    <div class="target-buttons">
-      <button id="target1" class="selected" onclick="selectPlayer(1)">
-        플레이어 1
-      </button>
+    <div class="header">
 
-      <button id="target2" onclick="selectPlayer(2)">
-        플레이어 2
-      </button>
-    </div>
+        <div class="title">
+            ❤️ 1대1 게임
+        </div>
 
-    <input
-      id="calcDisplay"
-      class="calc-display"
-      type="text"
-      value="0"
-      readonly
-    >
+        <div class="turnInfo">
 
-    <div class="calc-buttons">
+            <div class="turnLabel">
+                현재 턴
+            </div>
 
-      <button onclick="calcInput('1')">1</button>
-      <button onclick="calcInput('2')">2</button>
-      <button onclick="calcInput('3')">3</button>
+            <div
+                id="turnPlayerText"
+                class="turnPlayer">
+                🔵 플레이어 1
+            </div>
 
-      <button onclick="calcInput('4')">4</button>
-      <button onclick="calcInput('5')">5</button>
-      <button onclick="calcInput('6')">6</button>
-
-      <button onclick="calcInput('7')">7</button>
-      <button onclick="calcInput('8')">8</button>
-      <button onclick="calcInput('9')">9</button>
-
-      <button onclick="calcInput('0')">0</button>
-      <button class="calc-clear" onclick="calcClear()">C</button>
-      <button onclick="calcBack()">←</button>
-
-      <button class="minus" onclick="applyCalc(-1)">
-        ➖ 빼기
-      </button>
-
-      <button class="plus" onclick="applyCalc(1)">
-        ➕ 더하기
-      </button>
+        </div>
 
     </div>
 
-  </div>
+
+    <!-- 플레이어 -->
+
+    <div class="players">
 
 
-  <!-- 주사위 / 동전 -->
-  <div class="tools">
+        <!-- 플레이어 1 -->
 
-    <h2>🎲 랜덤 도구</h2>
+        <div
+            id="player1"
+            class="player active">
 
-    <button onclick="rollDice()">
-      🎲 주사위 굴리기
-    </button>
+            <div class="playerName">
+                🔵 플레이어 1
+            </div>
 
-    <button onclick="flipCoin()">
-      🪙 동전 던지기
-    </button>
 
-    <div class="result" id="randomResult">
-      -
+            <!-- 목숨 터치 -->
+
+            <div
+                class="lifeBox"
+                onclick="openLifeCalculator(1)">
+
+                <div class="lifeIcon">
+                    ❤️
+                </div>
+
+                <div
+                    id="life1"
+                    class="lifeNumber">
+                    15
+                </div>
+
+                <div class="touchText">
+                    터치하여 목숨 계산
+                </div>
+
+            </div>
+
+
+            <!-- 코스트 터치 -->
+
+            <div
+                class="costBox"
+                onclick="openCostCalculator(1)">
+
+                <div class="costTitle">
+                    🔵 코스트
+                </div>
+
+                <div
+                    id="cost1"
+                    class="costNumber">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- 플레이어 2 -->
+
+        <div
+            id="player2"
+            class="player">
+
+            <div class="playerName">
+                🔴 플레이어 2
+            </div>
+
+
+            <!-- 목숨 -->
+
+            <div
+                class="lifeBox"
+                onclick="openLifeCalculator(2)">
+
+                <div class="lifeIcon">
+                    ❤️
+                </div>
+
+                <div
+                    id="life2"
+                    class="lifeNumber">
+                    15
+                </div>
+
+                <div class="touchText">
+                    터치하여 목숨 계산
+                </div>
+
+            </div>
+
+
+            <!-- 코스트 -->
+
+            <div
+                class="costBox"
+                onclick="openCostCalculator(2)">
+
+                <div class="costTitle">
+                    🔵 코스트
+                </div>
+
+                <div
+                    id="cost2"
+                    class="costNumber">
+                    0
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 
-  </div>
+
+    <!-- 하단 -->
+
+    <div class="bottom">
+
+        <button
+            id="turnButton"
+            class="turnButton"
+            onclick="turnButtonClick()">
+
+            ⏱️ 턴 시작
+
+        </button>
 
 
-  <!-- 기록 -->
-  <div class="history">
+        <div class="tools">
 
-    <strong>📜 기록</strong>
+            <button
+                class="toolButton"
+                onclick="rollDice()">
+                🎲 주사위
+            </button>
 
-    <div id="historyList">
-      게임 시작 — P1 ❤️15 / P2 ❤️15
+            <button
+                class="toolButton"
+                onclick="flipCoin()">
+                🪙 동전
+            </button>
+
+            <button
+                class="toolButton"
+                onclick="resetGame()">
+                🔄 초기화
+            </button>
+
+        </div>
+
     </div>
-
-  </div>
-
-
-  <button
-    class="reset"
-    style="display:block;margin:25px auto;"
-    onclick="resetGame()"
-  >
-    🔄 게임 전체 초기화
-  </button>
 
 </div>
 
 
+
+<!-- =================================
+     계산기 화면
+================================= -->
+
+<div id="calculatorScreen">
+
+    <div class="calcHeader">
+
+        <button
+            class="backButton"
+            onclick="closeCalculator()">
+            ← 돌아가기
+        </button>
+
+        <div
+            id="calcTitle"
+            class="calcTitle">
+            ❤️ 목숨 계산
+        </div>
+
+        <div
+            id="calcTarget"
+            class="calcTarget">
+            P1
+        </div>
+
+    </div>
+
+
+    <div class="calcContent">
+
+        <input
+            id="calcDisplay"
+            class="calcDisplay"
+            value="0"
+            readonly>
+
+
+        <div class="calcButtons">
+
+            <button onclick="inputNumber('1')">1</button>
+            <button onclick="inputNumber('2')">2</button>
+            <button onclick="inputNumber('3')">3</button>
+
+            <button onclick="inputNumber('4')">4</button>
+            <button onclick="inputNumber('5')">5</button>
+            <button onclick="inputNumber('6')">6</button>
+
+            <button onclick="inputNumber('7')">7</button>
+            <button onclick="inputNumber('8')">8</button>
+            <button onclick="inputNumber('9')">9</button>
+
+            <button
+                class="clear"
+                onclick="clearCalculator()">
+                C
+            </button>
+
+            <button
+                class="zero"
+                onclick="inputNumber('0')">
+                0
+            </button>
+
+            <button
+                onclick="backspace()">
+                ←
+            </button>
+
+            <button
+                class="minus"
+                onclick="calculate(-1)">
+                ➖ 빼기
+            </button>
+
+            <button
+                class="plus"
+                onclick="calculate(1)">
+                ➕ 더하기
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- 랜덤 결과 -->
+
+<div
+    id="randomResult"
+    class="randomResult">
+    🎲 1
+</div>
+
+
+</div>
+
+
+
 <script>
 
+
+/* =================================
+   게임 데이터
+================================= */
+
 let life = {
-  1: 15,
-  2: 15
+    1: 15,
+    2: 15
 };
 
 let cost = {
-  1: 0,
-  2: 0
+    1: 0,
+    2: 0
 };
 
-let currentTurn = 1;
 
-let selectedPlayer = 1;
+/*
+   현재 플레이어
+   1 = P1
+   2 = P2
+*/
 
+let currentPlayer = 1;
+
+
+/*
+   턴 상태
+
+   false = 턴 시작 전
+   true  = 턴 진행 중
+*/
+
+let turnStarted = false;
+
+
+/*
+   계산기 상태
+*/
+
+let calculatorType = "life";
+let calculatorPlayer = 1;
 let calcValue = "";
 
 
-/* =========================
+/* =================================
    화면 갱신
-========================= */
+================================= */
 
 function updateScreen() {
 
-  document.getElementById("life1").textContent = life[1];
-  document.getElementById("life2").textContent = life[2];
+    document.getElementById("life1").textContent =
+        life[1];
 
-  document.getElementById("cost1").textContent = cost[1];
-  document.getElementById("cost2").textContent = cost[2];
+    document.getElementById("life2").textContent =
+        life[2];
 
-  document.getElementById("turnNumber").textContent =
-    currentTurn;
+
+    document.getElementById("cost1").textContent =
+        cost[1];
+
+    document.getElementById("cost2").textContent =
+        cost[2];
+
+
+    /*
+       현재 플레이어 강조
+    */
+
+    document.getElementById("player1")
+        .classList.toggle(
+            "active",
+            currentPlayer === 1
+        );
+
+    document.getElementById("player2")
+        .classList.toggle(
+            "active",
+            currentPlayer === 2
+        );
+
+
+    document.getElementById("turnPlayerText")
+        .textContent =
+        currentPlayer === 1
+        ? "🔵 플레이어 1"
+        : "🔴 플레이어 2";
+
+
+    /*
+       턴 버튼
+    */
+
+    const button =
+        document.getElementById("turnButton");
+
+
+    if (!turnStarted) {
+
+        button.textContent =
+            "⏱️ 턴 시작";
+
+        button.classList.remove("end");
+
+    } else {
+
+        button.textContent =
+            "⏹️ 턴 종료";
+
+        button.classList.add("end");
+    }
+
 }
 
 
-/* =========================
-   목숨 변경
-========================= */
+/* =================================
+   턴 버튼
+================================= */
 
-function changeLife(player, amount) {
+function turnButtonClick() {
 
-  life[player] += amount;
+    /*
+       턴 시작
+    */
 
-  if (life[player] < 0) {
-    life[player] = 0;
-  }
+    if (!turnStarted) {
 
-  updateScreen();
+        turnStarted = true;
 
-  addHistory(
-    "P" + player +
-    " 목숨 " +
-    (amount > 0 ? "+" : "") +
-    amount +
-    " → ❤️" +
-    life[player]
-  );
+
+        /*
+           현재 턴 플레이어에게만
+           코스트 +3
+        */
+
+        cost[currentPlayer] += 3;
+
+
+        updateScreen();
+
+        showRandomResult(
+            "▶️ P" + currentPlayer + " 턴 시작"
+        );
+
+        return;
+    }
+
+
+    /*
+       턴 종료
+    */
+
+    turnStarted = false;
+
+
+    /*
+       자동으로 상대방에게 턴 전달
+    */
+
+    currentPlayer =
+        currentPlayer === 1
+        ? 2
+        : 1;
+
+
+    updateScreen();
+
+
+    /*
+       상대 턴 자동 시작
+       → 여기서 +3
+    */
+
+    setTimeout(function() {
+
+        turnStarted = true;
+
+        cost[currentPlayer] += 3;
+
+        updateScreen();
+
+        showRandomResult(
+            "▶️ P" + currentPlayer + " 턴 시작\n+3 코스트"
+        );
+
+    }, 250);
+
 }
 
 
-/* =========================
-   플레이어 선택
-========================= */
+/* =================================
+   목숨 계산기 열기
+================================= */
 
-function selectPlayer(player) {
+function openLifeCalculator(player) {
 
-  selectedPlayer = player;
+    calculatorType = "life";
+    calculatorPlayer = player;
 
-  document
-    .getElementById("target1")
-    .classList.remove("selected");
-
-  document
-    .getElementById("target2")
-    .classList.remove("selected");
-
-  document
-    .getElementById("target" + player)
-    .classList.add("selected");
-
-}
-
-
-/* =========================
-   계산기
-========================= */
-
-function calcInput(number) {
-
-  if (calcValue === "0") {
     calcValue = "";
-  }
 
-  calcValue += number;
+    document.getElementById("calcTitle")
+        .textContent =
+        "❤️ 목숨 계산";
 
-  document.getElementById("calcDisplay").value =
-    calcValue;
+    document.getElementById("calcTarget")
+        .textContent =
+        "P" + player;
+
+    document.getElementById("mainScreen")
+        .style.display = "none";
+
+    document.getElementById("calculatorScreen")
+        .style.display = "flex";
+
+    updateCalcDisplay();
+
 }
 
 
-function calcClear() {
+/* =================================
+   코스트 계산기 열기
+================================= */
 
-  calcValue = "";
+function openCostCalculator(player) {
 
-  document.getElementById("calcDisplay").value =
-    "0";
+    calculatorType = "cost";
+    calculatorPlayer = player;
+
+    calcValue = "";
+
+    document.getElementById("calcTitle")
+        .textContent =
+        "🔵 코스트 계산";
+
+    document.getElementById("calcTarget")
+        .textContent =
+        "P" + player;
+
+    document.getElementById("mainScreen")
+        .style.display = "none";
+
+    document.getElementById("calculatorScreen")
+        .style.display = "flex";
+
+    updateCalcDisplay();
+
 }
 
 
-function calcBack() {
+/* =================================
+   계산기 숫자
+================================= */
 
-  calcValue = calcValue.slice(0, -1);
+function inputNumber(number) {
 
-  if (calcValue === "") {
-    document.getElementById("calcDisplay").value =
-      "0";
-  } else {
-    document.getElementById("calcDisplay").value =
-      calcValue;
-  }
+    if (calcValue === "0") {
+        calcValue = "";
+    }
+
+    calcValue += number;
+
+    updateCalcDisplay();
+
 }
 
 
-function applyCalc(sign) {
+/* =================================
+   계산기 표시
+================================= */
 
-  let value = parseInt(calcValue);
+function updateCalcDisplay() {
 
-  if (isNaN(value) || value === 0) {
-    return;
-  }
+    document.getElementById("calcDisplay")
+        .value =
+        calcValue === ""
+        ? "0"
+        : calcValue;
 
-  changeLife(
-    selectedPlayer,
-    value * sign
-  );
-
-  calcClear();
 }
 
 
-/* =========================
-   턴 넘기기
-========================= */
+/* =================================
+   계산기 초기화
+================================= */
 
-function nextTurn() {
+function clearCalculator() {
 
-  currentTurn++;
+    calcValue = "";
 
-  // 턴이 넘어갈 때 양쪽 모두 코스트 +3
-  cost[1] += 3;
-  cost[2] += 3;
+    updateCalcDisplay();
 
-  updateScreen();
-
-  addHistory(
-    "🔄 " +
-    currentTurn +
-    "턴 시작 — 양쪽 코스트 +3"
-  );
 }
 
 
-/* =========================
+/* =================================
+   뒤로가기
+================================= */
+
+function backspace() {
+
+    calcValue =
+        calcValue.slice(0, -1);
+
+    updateCalcDisplay();
+
+}
+
+
+/* =================================
+   계산 실행
+================================= */
+
+function calculate(sign) {
+
+    let value =
+        parseInt(calcValue);
+
+
+    if (
+        isNaN(value) ||
+        value === 0
+    ) {
+        return;
+    }
+
+
+    if (calculatorType === "life") {
+
+        life[calculatorPlayer] +=
+            value * sign;
+
+
+        /*
+           목숨은 음수가 되지 않음
+        */
+
+        if (
+            life[calculatorPlayer] < 0
+        ) {
+            life[calculatorPlayer] = 0;
+        }
+
+    } else {
+
+        cost[calculatorPlayer] +=
+            value * sign;
+
+
+        /*
+           코스트도 음수가 되지 않음
+        */
+
+        if (
+            cost[calculatorPlayer] < 0
+        ) {
+            cost[calculatorPlayer] = 0;
+        }
+
+    }
+
+
+    updateScreen();
+
+    closeCalculator();
+
+}
+
+
+/* =================================
+   계산기 닫기
+================================= */
+
+function closeCalculator() {
+
+    document.getElementById("calculatorScreen")
+        .style.display = "none";
+
+    document.getElementById("mainScreen")
+        .style.display = "flex";
+
+}
+
+
+/* =================================
    주사위
-========================= */
+================================= */
 
 function rollDice() {
 
-  let result =
-    Math.floor(Math.random() * 6) + 1;
+    let result =
+        Math.floor(Math.random() * 6) + 1;
 
-  document.getElementById("randomResult")
-    .textContent = "🎲 " + result;
+    showRandomResult(
+        "🎲 " + result
+    );
 
-  addHistory(
-    "🎲 주사위 결과: " + result
-  );
 }
 
 
-/* =========================
+/* =================================
    동전
-========================= */
+================================= */
 
 function flipCoin() {
 
-  let result =
-    Math.random() < 0.5
-      ? "앞면"
-      : "뒷면";
+    let result =
+        Math.random() < 0.5
+        ? "앞면"
+        : "뒷면";
 
-  let icon =
-    result === "앞면"
-      ? "🪙"
-      : "🪙";
+    showRandomResult(
+        "🪙 " + result
+    );
 
-  document.getElementById("randomResult")
-    .textContent =
-      icon + " " + result;
-
-  addHistory(
-    "🪙 동전 결과: " + result
-  );
 }
 
 
-/* =========================
-   기록
-========================= */
+/* =================================
+   랜덤 결과 표시
+================================= */
 
-function addHistory(text) {
+function showRandomResult(text) {
 
-  let list =
-    document.getElementById("historyList");
+    const result =
+        document.getElementById("randomResult");
 
-  let item =
-    document.createElement("div");
+    result.textContent = text;
 
-  let time =
-    new Date().toLocaleTimeString();
+    result.style.display = "block";
 
-  item.textContent =
-    time + " — " + text;
 
-  list.prepend(item);
+    setTimeout(function() {
+
+        result.style.display = "none";
+
+    }, 1000);
+
 }
 
 
-/* =========================
-   초기화
-========================= */
+/* =================================
+   게임 초기화
+================================= */
 
 function resetGame() {
 
-  if (!confirm("게임을 처음부터 다시 시작할까요?")) {
-    return;
-  }
+    if (
+        !confirm(
+            "게임을 처음 상태로 초기화할까요?"
+        )
+    ) {
+        return;
+    }
 
-  life[1] = 15;
-  life[2] = 15;
 
-  cost[1] = 0;
-  cost[2] = 0;
+    life[1] = 15;
+    life[2] = 15;
 
-  currentTurn = 1;
+    cost[1] = 0;
+    cost[2] = 0;
 
-  selectedPlayer = 1;
+    currentPlayer = 1;
 
-  calcClear();
+    turnStarted = false;
 
-  document.getElementById("randomResult")
-    .textContent = "-";
+    closeCalculator();
 
-  document.getElementById("target1")
-    .classList.add("selected");
+    updateScreen();
 
-  document.getElementById("target2")
-    .classList.remove("selected");
-
-  document.getElementById("historyList")
-    .innerHTML =
-      "<div>게임 초기화 — P1 ❤️15 / P2 ❤️15</div>";
-
-  updateScreen();
 }
 
 
-/* 초기 실행 */
+/* =================================
+   시작
+================================= */
+
 updateScreen();
 
 </script>
